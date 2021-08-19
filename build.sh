@@ -1,9 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0
-# Copyright (c) 2021, Divyanshu-Modi <divyan.m05@gmail.com>
+# Copyright © 2021,
+# Author(s): Divyanshu-Modi <divyan.m05@gmail.com>
+#            Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
 #bin/#!/bin/bash
 
 	COMPILER="$1"
-	USER=OGIndian
+	USER=Tashar
 	HOST=$(uname -n)
 	VERSION=4.1-hotfix
 	CLANG_PATH=$HOME/clang
@@ -11,14 +13,14 @@
 	CLANG_COMPAT=arm-linux-gnueabi-
 	GCC_PATH=$HOME/gcc-arm64
 	GCC_COMPAT=$HOME/gcc-arm32/bin/arm-eabi-
-	DEVICENAME='Redmi Note 6 Pro'
-	DEVICE=tulip
+	DEVICENAME='Mi A2 / Mi 6X'
+	DEVICE=wayne
 	CAM_LIB=
 	KERNEL_DIR=$HOME/Kernel
 	ZIP_DIR=$HOME/Repack
 	AKSH=$ZIP_DIR/anykernel.sh
 	KRNLVER=$(make kernelversion | cut -c 1-3)
-	DFCF=AtomX-$DEVICE${CAM_LIB}_defconfig
+	DFCF=${DEVICE}${CAM_LIB}_defconfig
 	CONFIG=$KERNEL_DIR/arch/arm64/configs/$DFCF
 	mkdir $COMPILER
 
@@ -49,7 +51,6 @@
 		make O=$COMPILER $CFLAG ARCH=arm64 \
 		    $FLAG                          \
 			CC=$CC                         \
-			LLVM=1                         \
 			${ETXRA_FLAGS}                 \
 			HOSTLD=ld.lld                  \
 			HOSTCC=$HOSTCC                 \
@@ -86,7 +87,7 @@
 
 	if [[ -f $KERNEL_DIR/$COMPILER/arch/arm64/boot/Image.gz-dtb ]]; then
 		if [[ "$CAM_LIB" == "" ]]; then
-			CAM=OLD-CAM
+			CAM=NEW-CAM
 		else
 			CAM=$CAM_LIB
 		fi
@@ -99,8 +100,8 @@
 		if [[ "$DEVICE2" ]]; then
 			sed -i "/device.name1/ a device.name2=$DEVICE2" $AKSH
 		fi
-		zip -r9 "$FINAL_ZIP".zip * -x README.md *placeholder zipsigner*
-		java -jar zipsigner* "$FINAL_ZIP.zip" "$FINAL_ZIP-signed.zip"
+		zip -r9 "$FINAL_ZIP".zip * -x README.md *placeholder zipsigner-3.0.jar
+		java -jar zipsigner-3.0.jar "$FINAL_ZIP.zip" "$FINAL_ZIP-signed.zip"
 		FINAL_ZIP="$FINAL_ZIP-signed.zip"
 		telegram-send --file $ZIP_DIR/$FINAL_ZIP
 		rm *.zip Image.gz-dtb
@@ -115,7 +116,7 @@
 		cd $KERNEL_DIR
 		COMPILER_NAME="$($C_PATH/bin/$CC --version 2>/dev/null | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 		telegram-send --format html "\
-		**************Atom-X-Kernel**************
+		========Tempest Kernel========
 		Compiler: <code>$COMPILER</code>
 		Compiler-name: <code>$COMPILER_NAME</code>
 		Linux Version: <code>$(make kernelversion)</code>
