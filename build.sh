@@ -7,7 +7,7 @@
 	COMPILER="$1"
 	USER='Tashar'
 	HOST="$(uname -n)"
-	VERSION'=4.5'
+	VERSION='5.0'
 	DEVICENAME='Mi A2 / Mi 6X'
 	DEVICE='wayne'
 	CAM_LIB=''
@@ -24,21 +24,22 @@
 		HOSTCC='clang'
 		HOSTCXX='clang++'
 		C_PATH="$HOME/clang"
+		CC_64='aarch64-linux-gnu-'
 		CC_COMPAT='arm-linux-gnueabi-'
-		EXTRA_FLAGS='CROSS_COMPILE=aarch64-linux-gnu-'
 	elif [[ "$COMPILER" == "GCC" ]]; then
 		HOSTCC='gcc'
+		CC_64='aarch64-elf-'
 		CC='aarch64-elf-gcc'
 		C_PATH="$HOME/gcc-arm64"
 		HOSTCXX='aarch64-elf-g++'
 		CC_COMPAT="$HOME/gcc-arm32/bin/arm-eabi-"
-		EXTRA_FLAGS="LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH"
 	fi
 
 	muke() {
 		make O=$COMPILER $CFLAG ARCH=arm64 \
 		    $FLAG                          \
 			CC=$CC                         \
+			CROSS_COMPILE=$CC_64           \
 			$EXTRA_FLAGS                   \
 			HOSTLD=ld.lld                  \
 			HOSTCC=$HOSTCC                 \
@@ -47,7 +48,8 @@
 			KBUILD_BUILD_USER=$USER        \
 			KBUILD_BUILD_HOST=$HOST        \
 			CROSS_COMPILE_ARM32=$CC_COMPAT \
-			CROSS_COMPILE_COMPAT=$CC_COMPAT
+			CROSS_COMPILE_COMPAT=$CC_COMPAT\
+			LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH
 	}
 
 	BUILD_START=$(date +"%s")
@@ -104,7 +106,8 @@
 
 		cd $KERNEL_DIR
 		COMPILER_NAME="$($C_PATH/bin/$CC --version 2>/dev/null | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
-		telegram-send --format html "\
+
+		telegram-send --disable-web-page-preview --format html "\
 		========Tempest Kernel========
 		Compiler: <code>$COMPILER</code>
 		Compiler-name: <code>$COMPILER_NAME</code>
@@ -117,9 +120,7 @@
 		Build Date: <code>$(date +"%Y-%m-%d %H:%M")</code>
 		Build Duration: <code>$(($DIFF / 60)).$(($DIFF % 60)) mins</code>
 		Changelog: <a href='$SOURCE'> Here </a>"
-		export CONTINUE_BUILD="yes"
 	else
 		telegram-send "Error⚠️ $COMPILER failed to build"
-		export CONTINUE_BUILD="no"
 		exit 1
 	fi
