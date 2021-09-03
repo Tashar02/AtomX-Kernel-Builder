@@ -1,20 +1,23 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright © 2021,
-# Author(s): Divyanshu-Modi <divyan.m05@gmail.com>
-#            Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
+# Author(s): Divyanshu-Modi <divyan.m05@gmail.com>, Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
 #bin/#!/bin/bash
 
 	COMPILER="$1"
 	USER='Tashar'
 	HOST="$(uname -n)"
-	VERSION='5.0'
+	VERSION='6.0'
 	DEVICENAME='Mi A2 / Mi 6X'
 	DEVICE='wayne'
+	DEVICE2='jasmine_sprout'
 	CAM_LIB=''
 	KERNEL_DIR="$HOME/Kernel"
 	ZIP_DIR="$HOME/Repack"
 	AKSH="$ZIP_DIR/anykernel.sh"
 	DFCF="${DEVICE}${CAM_LIB}_defconfig"
+	if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
+		DFCF="${DEVICE}${CAM_LIB}_defconfig"
+	fi	
 	CONFIG="$KERNEL_DIR/arch/arm64/configs/$DFCF"
 	mkdir $COMPILER
 
@@ -36,42 +39,35 @@
 	fi
 
 	muke() {
-		make O=$COMPILER $CFLAG ARCH=arm64 \
-		    $FLAG                          \
-			CC=$CC                         \
-			CROSS_COMPILE=$CC_64           \
-			$EXTRA_FLAGS                   \
-			HOSTLD=ld.lld                  \
-			HOSTCC=$HOSTCC                 \
-			HOSTCXX=$HOSTCXX               \
-			PATH=$C_PATH/bin:$PATH         \
-			KBUILD_BUILD_USER=$USER        \
-			KBUILD_BUILD_HOST=$HOST        \
-			CROSS_COMPILE_ARM32=$CC_COMPAT \
-			CROSS_COMPILE_COMPAT=$CC_COMPAT\
+		make O=$COMPILER $CFLAG ARCH=arm64	\
+			$FLAG				\
+			CC=$CC				\
+			LLVM=1				\
+			LLVM_IAS=1			\
+			CROSS_COMPILE=$CC_64		\
+			HOSTCC=$HOSTCC			\
+			HOSTCXX=$HOSTCXX		\
+			PATH=$C_PATH/bin:$PATH		\
+			KBUILD_BUILD_USER=$USER		\
+			KBUILD_BUILD_HOST=$HOST		\
+			CROSS_COMPILE_ARM32=$CC_COMPAT	\
+			CROSS_COMPILE_COMPAT=$CC_COMPAT	\
 			LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH
 	}
 
 	BUILD_START=$(date +"%s")
 
-	if [[ "$COMPILER" == "CLANG" ]]; then
-		sed -i '/CONFIG_JUMP_LABEL/ a CONFIG_LTO_CLANG=y' $CONFIG
-		sed -i '/CONFIG_LTO_CLANG/ a # CONFIG_THINLTO is not set' $CONFIG
-	elif [[ "$COMPILER" == "GCC" ]]; then
-		sed -i '/CONFIG_JUMP_LABEL/ a CONFIG_LTO_GCC=y' $CONFIG
-		sed -i '/CONFIG_JUMP_LABEL/ a CONFIG_OPTIMIZE_INLINING=y' $CONFIG
-	fi
-
 	CFLAG=$DFCF
 	muke
-
-	if [[ "$COMPILER" == "CLANG" ]]; then
-		sed -i '/CONFIG_LTO_CLANG=y/d' $CONFIG
-		sed -i '/# CONFIG_THINLTO is not set/d' $CONFIG
-	elif [[ "$COMPILER" == "GCC" ]]; then
-		sed -i '/CONFIG_LTO_GCC=y/d' $CONFIG
-		sed -i '/CONFIG_OPTIMIZE_INLINING=y/d' $CONFIG
+	source $COMPILER/.config
+	if [[ "CONFIG_LTO_CLANG_FULL=y" ]]; then
+		VARIANT=FULL_LTO
+	elif [[ "CONFIG_LTO_CLANG_THIN=y" ]]; then
+		VARIANT=THIN_LTO
+	else
+		VARIANT=NON_LTO
 	fi
+	telegram-send --format html "Building: <code>$VARIANT</code>"
 
 	CFLAG=-j$(nproc)
 	muke
@@ -83,8 +79,9 @@
 			CAM=$CAM_LIB
 		fi
 
-		source $COMPILER/.config
-		FINAL_ZIP="$DEVICE$CAM_LIB$CONFIG_LOCALVERSION-${COMPILER}_LTO-`date +"%H%M"`"
+		FDEVICE=${DEVICE^^}
+		KNAME=$(echo "$CONFIG_LOCALVERSION" | cut -c 2-)
+		FINAL_ZIP="$KNAME-$CAM-$FDEVICE-`date +"%H%M"`"
 		cd $ZIP_DIR
 		cp $KERNEL_DIR/$COMPILER/arch/arm64/boot/Image.gz-dtb $ZIP_DIR/
 		sed -i "s/demo1/$DEVICE/g" $AKSH
@@ -113,6 +110,7 @@
 		Compiler-name: <code>$COMPILER_NAME</code>
 		Linux Version: <code>$(make kernelversion)</code>
 		Builder Version: <code>$VERSION</code>
+		Build Type: <code>$VARIANT</code>
 		Maintainer: <code>$USER</code>
 		Device: <code>$DEVICENAME</code>
 		Codename: <code>$DEVICE</code>

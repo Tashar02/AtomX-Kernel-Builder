@@ -3,8 +3,9 @@
 	git clone -q --depth=1 https://github.com/mvaisakh/gcc-arm64 -b  gcc-master $HOME/gcc-arm64
 	git clone -q --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master $HOME/gcc-arm32
 	git clone -q --depth=1 https://gitlab.com/ElectroPerf/atom-x-clang.git $HOME/clang
-	git clone -q --depth=1 https://github.com/Tashar02/AnyKernel3-4.4.git $HOME/Repack
-	git clone -q --depth=1 https://github.com/Tashar02/los-tempest-4.4 -b weeb-2 $HOME/Kernel
+	git clone -q --depth=1 https://github.com/Tashar02/AnyKernel3-4.19.git $HOME/Repack
+	git clone -q --depth=1 https://github.com/Atom-X-Devs/android_kernel_sdm660_tempest-4.19.git -b temp $HOME/Kernel
+
 	pip3 -q install telegram-send
 
 	mkdir $HOME/.config
@@ -15,6 +16,6 @@
 
 	cd $HOME/Kernel
 	bash build.sh CLANG
-	bash build.sh GCC
+#	bash build.sh GCC
 
 	exit
