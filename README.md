@@ -1,7 +1,10 @@
 # AtomX Kernel Builder
 
 ## Build status ##
-[![Build Status](https://cloud.drone.io/api/badges/Divyanshu-Modi/AtomX-Kernel-Builder/status.svg?ref=refs/heads/main)](https://cloud.drone.io/Divyanshu-Modi/AtomX-Kernel-Builder)
+[![Build
+Status](https://cloud.drone.io/api/badges/Divyanshu-Modi/AtomX-Kernel-Builder/
+status.svg?ref=refs/heads/main)](https://cloud.drone.io/Divyanshu-Modi/AtomX-
+Kernel-Builder)
 
 ## What this is ##
 ---------------------------------------------------------------------
@@ -30,7 +33,8 @@ Here are some useful notes to using this tool brewed with black magic xD !
 
 6. Setting up source
 - Note: Direct link to source should be provided
- 
+
 Enjoy!
 
-Note: This is just for testing and deployment of applications, I do not encourage misuse of Drone CI ! Thanks
+Note: This is just for testing and deployment of applications, I do not
+encourage misuse of Drone CI ! Thanks
