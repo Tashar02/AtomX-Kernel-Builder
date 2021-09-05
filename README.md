@@ -1,10 +1,8 @@
-# AtomX Kernel Builder
+# Tempest Kernel Builder
 
 ## Build status ##
 [![Build
-Status](https://cloud.drone.io/api/badges/Divyanshu-Modi/AtomX-Kernel-Builder/
-status.svg?ref=refs/heads/main)](https://cloud.drone.io/Divyanshu-Modi/AtomX-
-Kernel-Builder)
+Status](https://cloud.drone.io/api/badges/Tashar02/tempest-4.4-drone-builder/status.svg?ref=refs/heads/main)](https://cloud.drone.io/Tashar02/tempest-4.4-drone-builder)
 
 ## What this is ##
 ---------------------------------------------------------------------
@@ -36,5 +34,4 @@ Here are some useful notes to using this tool brewed with black magic xD !
 
 Enjoy!
 
-Note: This is just for testing and deployment of applications, I do not
-encourage misuse of Drone CI ! Thanks
+Note: This is just for testing and deployment of applications, I do not encourage misuse of Drone CI ! Thanks
