@@ -9,7 +9,7 @@
 	HOST="$(uname -n)"
 	VERSION='5.0'
 	DEVICENAME='Mi A2 / Mi 6X'
-	DEVICE='a26x-perf'
+	DEVICE='wayne'
 	CAM_LIB=''
 	KERNEL_DIR="$HOME/Kernel"
 	ZIP_DIR="$HOME/Repack"
