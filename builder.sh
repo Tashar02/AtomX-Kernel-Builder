@@ -4,7 +4,7 @@
 	git clone -q --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master $HOME/gcc-arm32
 	git clone -q --depth=1 https://github.com/Neutron-Clang/neutron-toolchain.git $HOME/clang
 	git clone -q --depth=1 https://github.com/Tashar02/AnyKernel3-4.4.git $HOME/Repack
-	git clone -q --depth=1 https://github.com/Tashar02/los-tempest-4.4 -b weeb $HOME/Kernel
+	git clone -q --depth=1 https://github.com/Tashar02/los-tempest-4.4 -b weeb-2 $HOME/Kernel
 	pip3 -q install telegram-send
 
 	mkdir $HOME/.config
