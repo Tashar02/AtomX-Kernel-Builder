@@ -1,0 +1,22 @@
+name: Tempest Kernel
+env:
+      BOT_API_KEY: ${{ secrets.BOT_API_KEY }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+      SOURCE: ${{ secrets.SOURCE }}
+on:
+  workflow_dispatch:
+  push: {branches: ["test"]}
+jobs:
+  tempest-kernel:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:base-devel
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Environment
+      run: curl -LO "https://repo.archlinuxcn.org/x86_64/glibc-linux4-2.33-4-x86_64.pkg.tar.zst" && bsdtar -C / -xvf "glibc-linux4-2.33-4-x86_64.pkg.tar.zst"
+    - name: Upgrade Environment
+      run: pacman -Syu --noconfirm --needed git bc inetutils zip libxml2 python3 jre-openjdk jdk-openjdk flex bison libc++ python-pip
+    - name: Proceed With Compilation
+      run: bash builder.sh
+      
