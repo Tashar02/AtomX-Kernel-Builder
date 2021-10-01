@@ -43,7 +43,6 @@
 			$FLAG				\
 			CC=$CC				\
 			LLVM=1				\
-			LLVM_IAS=1			\
 			CROSS_COMPILE=$CC_64		\
 			HOSTCC=$HOSTCC			\
 			HOSTCXX=$HOSTCXX		\
