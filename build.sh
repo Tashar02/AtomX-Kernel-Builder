@@ -22,12 +22,16 @@
 	AKSH="$ZIP_DIR/anykernel.sh"
 
 # DEFCONFIG
-if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
-	DFCF="vendor/${DEVICE}-perf_defconfig"
+	DFCF="${DEVICE}_defconfig"
+	if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
+		DFCF="${DEVICE}-perf_defconfig"
 		if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
 			DFCF="vendor/${DEVICE}_defconfig"
+			if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
+				DFCF="vendor/${DEVICE}-perf_defconfig"
+        		fi
         	fi
-fi
+	fi
 	CONFIG="$KERNEL_DIR/arch/arm64/configs/$DFCF"
 
 # Set variables
