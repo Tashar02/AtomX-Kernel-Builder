@@ -135,7 +135,9 @@ fi
 		Camlib: <code>$CAM</code>
 		Build Date: <code>$(date +"%Y-%m-%d %H:%M")</code>
 		Build Duration: <code>$(($DIFF / 60)).$(($DIFF % 60)) mins</code>
-		Changelog: <a href='$SOURCE'> Here </a>"
+		Changelog: <a href='$SOURCE'> Here </a>
+		Last Commit Name: <code>$(git show -s --format=%s)</code>
+		Last Commit Hash: <code>$(git rev-parse --short HEAD)</code>"
 	else
 		telegram-send "Error⚠️ $COMPILER failed to build"
 		exit 1
