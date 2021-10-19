@@ -8,7 +8,7 @@
 
 # USER
 	USER='Tashar'
-	HOST='Tempest-Drone'
+	HOST='Alpha-α'
 
 # DEVICE CONFIG
 	DEVICENAME='Mi A2 / Mi 6X'
