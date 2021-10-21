@@ -2,9 +2,9 @@
 
 	git clone -q --depth=1 https://github.com/mvaisakh/gcc-arm64 -b  gcc-master $HOME/gcc-arm64
 	git clone -q --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master $HOME/gcc-arm32
-	git clone -q --depth=1 https://gitlab.com/ElectroPerf/atom-x-clang.git $HOME/clang
+	git clone -q --depth=1 https://gitlab.com/Panchajanya1999/azure-clang $HOME/clang
 	git clone -q --depth=1 https://github.com/Tashar02/AnyKernel3-4.19.git $HOME/Repack
-	git clone -q --depth=1 https://github.com/Atom-X-Devs/android_kernel_sdm660_tempest-4.19.git -b rebase-1 $HOME/Kernel
+	git clone -q --depth=1 https://github.com/Atom-X-Devs/android_kernel_sdm660_tempest-4.19.git -b pelt $HOME/Kernel
 
 	pip3 -q install telegram-send
 
