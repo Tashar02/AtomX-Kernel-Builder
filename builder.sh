@@ -15,7 +15,7 @@
 	mv build.sh $HOME/Kernel/build.sh
 
 	cd $HOME/Kernel
-	bash build.sh CLANG
-#	bash build.sh GCC
+#	bash build.sh CLANG
+	bash build.sh GCC
 
 	exit
