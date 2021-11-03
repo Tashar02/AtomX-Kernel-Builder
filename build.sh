@@ -95,7 +95,7 @@
 		if [[ "$CAM_LIB" == "" ]]; then
 			CAM=NEW-CAM
 		else
-			CAM=$CAM_LIB
+			CAM=OLD-LIB
 		fi
 		
 		cp $KERNEL_DIR/$COMPILER/arch/arm64/boot/Image.gz-dtb $ZIP_DIR/
