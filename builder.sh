@@ -2,7 +2,8 @@
 
 	git clone -q --depth=1 https://github.com/mvaisakh/gcc-arm64 -b  gcc-master $HOME/gcc-arm64
 	git clone -q --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master $HOME/gcc-arm32
-	git clone -q --depth=1 https://gitlab.com/Panchajanya1999/azure-clang $HOME/clang
+	
+	curl https://gitlab.com/ElectroPerf/atom-x-clang/-/archive/cc983c283f470db22946a924917bc96134a364f1/atom-x-clang-cc983c283f470db22946a924917bc96134a364f1.zip && unzip -q atom-x-clang-cc983c283f470db22946a924917bc96134a364f1.zip && mv atom-x-clang-cc983c283f470db22946a924917bc96134a364f1 $HOME/clang
 	git clone -q --depth=1 https://github.com/Tashar02/AnyKernel3-4.19.git $HOME/Repack
 	git clone -q --depth=1 https://github.com/Atom-X-Devs/kernel_sdm660_scarlet.git -b snowcone $HOME/Kernel
 
