@@ -4,7 +4,7 @@
 #	git clone --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master $HOME/gcc-arm32
 	git clone --depth=1 https://gitlab.com/ElectroPerf/atom-x-clang.git $HOME/clang
 	git clone --depth=1 https://github.com/Tashar02/AnyKernel3-4.19.git $HOME/Repack
-	git clone --depth=1 https://github.com/Atom-X-Devs/kernel_sdm660_scarlet.git -b pelt+walt $HOME/Kernel
+	git clone --depth=1 https://github.com/Atom-X-Devs/kernel_sdm660_scarlet.git -b pelt-v8 $HOME/Kernel
 
 	pip3 install telegram-send
 
