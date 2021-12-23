@@ -8,7 +8,7 @@
 
 # USER
 	USER='Tashar'
-	HOST='Alpha-α'
+	HOST='Manjaro'
 
 # DEVICE CONFIG
 	DEVICENAME='Mi A2 / Mi 6X'
@@ -35,6 +35,7 @@
 	CONFIG="$KERNEL_DIR/arch/arm64/configs/$DFCF"
 
 # Set variables
+		HOSTLD='ld.lld'
 	if [[ "$COMPILER" == "CLANG" ]]; then
 		CC='clang'
 		HOSTCC="$CC"
@@ -52,19 +53,21 @@
 	fi
 
 	muke() {
-		make O=$COMPILER $CFLAG ARCH=arm64     \
-		    	$FLAG                          \
-			CC=$CC                         \
-			LLVM=1                         \
-			LLVM_IAS=1                     \
-			HOSTCC=$HOSTCC                 \
-			HOSTCXX=$HOSTCXX               \
-			CROSS_COMPILE=$CC_64           \
-			PATH=$C_PATH/bin:$PATH         \
-			KBUILD_BUILD_USER=$USER        \
-			KBUILD_BUILD_HOST=$HOST        \
-			CROSS_COMPILE_ARM32=$CC_COMPAT \
-			CROSS_COMPILE_COMPAT=$CC_COMPAT\
+		make O=$COMPILER $CFLAG ARCH=arm64   \
+		    	$FLAG                           \
+			CC=$CC                          \
+			LLVM=1                          \
+			LLVM_IAS=1                      \
+			PYTHON=python3                  \
+			KBUILD_BUILD_USER=$USER         \
+			KBUILD_BUILD_HOST=$HOST         \
+			PATH=$C_PATH/bin:$PATH          \
+			HOSTLD=$HOSTLD                  \
+			HOSTCC=$HOSTCC                  \
+			HOSTCXX=$HOSTCXX                \
+			CROSS_COMPILE=$CC_64            \
+			CROSS_COMPILE_ARM32=$CC_COMPAT  \
+			CROSS_COMPILE_COMPAT=$CC_COMPAT \
 			LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH
 	}
 
@@ -83,7 +86,7 @@
 
 	BUILD_START=$(date +"%s")
 
-	CFLAG=-j$(nproc)
+	CFLAG=-j$(nproc --all)
 	muke
 
 	BUILD_END=$(date +"%s")
@@ -127,7 +130,7 @@
 		COMPILER_NAME="$($C_PATH/bin/$CC --version 2>/dev/null | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 
 		telegram-send --disable-web-page-preview --format html "\
-		========Scarlet Kernel========
+		========Scarlet-X Kernel========
 		Compiler: <code>$COMPILER</code>
 		Compiler-name: <code>$COMPILER_NAME</code>
 		Linux Version: <code>$(make kernelversion)</code>
