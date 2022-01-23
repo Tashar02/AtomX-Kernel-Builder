@@ -65,6 +65,7 @@
 			HOSTLD=$HOSTLD                  \
 			HOSTCC=$HOSTCC                  \
 			HOSTCXX=$HOSTCXX                \
+			HOSTLD=ld.lld                   \
 			CROSS_COMPILE=$CC_64            \
 			CROSS_COMPILE_ARM32=$CC_COMPAT  \
 			LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH
