@@ -53,8 +53,8 @@
 	fi
 
 	muke() {
-		make O=$COMPILER $CFLAG ARCH=arm64   \
-		    	$FLAG                           \
+		make O=$COMPILER $CFLAG ARCH=arm64  \
+		    $FLAG                           \
 			CC=$CC                          \
 			LLVM=1                          \
 			LLVM_IAS=1                      \
@@ -67,7 +67,6 @@
 			HOSTCXX=$HOSTCXX                \
 			CROSS_COMPILE=$CC_64            \
 			CROSS_COMPILE_ARM32=$CC_COMPAT  \
-			CROSS_COMPILE_COMPAT=$CC_COMPAT \
 			LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH
 	}
 
