@@ -1,10 +1,10 @@
 #bin/#!/bin/bash
 
-	git clone --depth=1 https://github.com/mvaisakh/gcc-arm64 -b gcc-master $HOME/gcc-arm64
-	git clone --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master $HOME/gcc-arm32
-#	git clone --depth=1 https://gitlab.com/ElectroPerf/atom-x-clang.git $HOME/clang
+#	git clone --depth=1 https://github.com/mvaisakh/gcc-arm64 -b gcc-master $HOME/gcc-arm64
+#	git clone --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master $HOME/gcc-arm32
+	git clone --depth=1 https://gitlab.com/ElectroPerf/atom-x-clang.git $HOME/clang
 	git clone --depth=1 https://github.com/Tashar02/AnyKernel3-4.19.git $HOME/Repack
-	git clone --depth=1 https://github.com/Tashar02/kernel_sdm660_tempest-4.4 -b r4 $HOME/Kernel
+	git clone --depth=1 https://github.com/Atom-X-Devs/android_kernel_xiaomi_scarlet.git -b release-v13 $HOME/Kernel
 
 	pip3 install telegram-send
 
@@ -15,7 +15,7 @@
 	mv build.sh $HOME/Kernel/build.sh
 
 	cd $HOME/Kernel
-#	bash build.sh CLANG
-	bash build.sh GCC
+	bash build.sh CLANG
+#	bash build.sh GCC
 
 	exit
