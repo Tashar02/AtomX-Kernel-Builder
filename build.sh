@@ -53,21 +53,29 @@
 	fi
 
 	muke() {
-		make O=$COMPILER $CFLAG ARCH=arm64  \
-		    $FLAG                           \
-			CC=$CC                          \
-			LLVM=1                          \
-			LLVM_IAS=1                      \
-			PYTHON=python3                  \
-			KBUILD_BUILD_USER=$USER         \
-			KBUILD_BUILD_HOST=$HOST         \
-			PATH=$C_PATH/bin:$PATH          \
-			HOSTLD=$HOSTLD                  \
-			HOSTCC=$HOSTCC                  \
-			HOSTCXX=$HOSTCXX                \
-			HOSTLD=ld.lld                   \
-			CROSS_COMPILE=$CC_64            \
-			CROSS_COMPILE_ARM32=$CC_COMPAT  \
+		make O=$COMPILER $CFLAG ARCH=arm64   \
+		    $FLAG                            \
+			CC=$CC                           \
+			LLVM=1                           \
+			LLVM_IAS=1                       \
+			PYTHON=python3                   \
+			AS=llvm-as                       \
+			AR=llvm-ar                       \
+			NM=llvm-nm                       \
+			LD=ld.lld                        \
+			STRIP=llvm-strip                 \
+			OBJCOPY=llvm-objcopy             \
+			OBJDUMP=llvm-objdump             \
+			OBJSIZE=llvm-objsize             \
+			HOSTLD=ld.lld                    \
+			HOSTCC=$HOSTCC                   \
+			HOSTCXX=$HOSTCXX                 \
+			HOSTAR=llvm-ar                   \
+			CROSS_COMPILE=$CC_64             \
+			PATH=$C_PATH/bin:$PATH           \
+			KBUILD_BUILD_USER=$USER          \
+			KBUILD_BUILD_HOST=$HOST          \
+			CROSS_COMPILE_COMPAT=$CC_COMPAT  \
 			LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH
 	}
 
