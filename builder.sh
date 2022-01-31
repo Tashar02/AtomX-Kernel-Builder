@@ -4,7 +4,7 @@
 #	git clone --depth=1 https://github.com/mvaisakh/gcc-arm -b gcc-master $HOME/gcc-arm32
 	git clone --depth=1 https://gitlab.com/ElectroPerf/atom-x-clang.git $HOME/clang
 	git clone --depth=1 https://github.com/Tashar02/AnyKernel3-4.19.git $HOME/Repack
-	git clone --depth=1 https://github.com/Atom-X-Devs/android_kernel_xiaomi_scarlet.git -b release-v13 $HOME/Kernel
+	git clone --depth=1 https://github.com/Atom-X-Devs/android_kernel_xiaomi_scarlet.git -b release-v18 $HOME/Kernel
 
 	pip3 install telegram-send
 
