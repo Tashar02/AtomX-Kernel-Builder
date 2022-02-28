@@ -14,7 +14,7 @@
 	DEVICENAME='Mi A2 / Mi 6X'
 	DEVICE='wayne'
 	DEVICE2=''
-	CAM_LIB=''
+	CAM_LIB='1'
 
 # PATH
 	KERNEL_DIR="$HOME/Kernel"
@@ -104,11 +104,17 @@
 		FDEVICE=${DEVICE^^}
 		KNAME=$(echo "$CONFIG_LOCALVERSION" | cut -c 2-)
 		
-		if [[ "$CAM_LIB" == "" ]]; then
-			CAM=NEW-CAM
-		else
-			CAM=OLD-LIB
-		fi
+case $CAM_LIB in 
+	1)
+	   CAM=NEW-CAM
+	;;
+	2)
+	   CAM=OLD-CAM
+	;;
+	3)
+	   CAM=OSS-CAM
+	;;
+esac
 		
 		cp $KERNEL_DIR/$COMPILER/arch/arm64/boot/Image.gz-dtb $ZIP_DIR/
 
