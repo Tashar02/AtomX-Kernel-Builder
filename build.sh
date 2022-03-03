@@ -43,7 +43,6 @@
 		C_PATH="$HOME/clang"
 		CC_64='aarch64-linux-gnu-'
 		CC_COMPAT='arm-linux-gnueabi-'
-		sed -i '/CONFIG_LLVM_POLLY=y/ a CONFIG_LTO_CLANG_FULL=y' $CONFIG
 	elif [[ "$COMPILER" == "GCC" ]]; then
 		HOSTCC='gcc'
 		CC_64='aarch64-elf-'
