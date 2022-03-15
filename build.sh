@@ -62,6 +62,7 @@
 			AS=llvm-as                       \
 			AR=llvm-ar                       \
 			NM=llvm-nm                       \
+			DTC_EXT=$(which dtc)             \
 			LD=ld.lld                        \
 			STRIP=llvm-strip                 \
 			OBJCOPY=llvm-objcopy             \
