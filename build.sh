@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright © 2021,
 # Author(s): Divyanshu-Modi <divyan.m05@gmail.com>, Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
-# Revision: 01-10-2021 V1
+# Revision: 24-03-2022
 
-	VERSION='6.1'
+	VERSION='6.2'
 	COMPILER="$1"
 
 # USER
@@ -35,23 +35,22 @@
 	CONFIG="$KERNEL_DIR/arch/arm64/configs/$DFCF"
 
 # Set variables
-		HOSTLD='ld.lld'
 	if [[ "$COMPILER" == "CLANG" ]]; then
 		CC='clang'
 		HOSTCC="$CC"
 		HOSTCXX="$CC++"
-		C_PATH="$HOME/clang"
 		CC_64='aarch64-linux-gnu-'
-		CC_COMPAT='arm-linux-gnueabi-'
+		C_PATH="$HOME/clang"
 		sed -i '/CONFIG_LLVM_POLLY=y/ a CONFIG_LTO_CLANG_FULL=y' $CONFIG
 	elif [[ "$COMPILER" == "GCC" ]]; then
 		HOSTCC='gcc'
 		CC_64='aarch64-elf-'
 		CC='aarch64-elf-gcc'
-		C_PATH="$HOME/gcc-arm64"
 		HOSTCXX='aarch64-elf-g++'
-		CC_COMPAT="$HOME/gcc-arm32/bin/arm-eabi-"
+		C_PATH="$HOME/gcc-arm64"
 	fi
+		CC_32="$HOME/gcc-arm32/bin/arm-eabi-"
+		CC_COMPAT="$HOME/gcc-arm32/bin/arm-eabi-gcc"
 
 	muke() {
 		make O=$COMPILER $CFLAG ARCH=arm64   \
@@ -60,10 +59,12 @@
 			LLVM=1                           \
 			LLVM_IAS=1                       \
 			PYTHON=python3                   \
+			KBUILD_BUILD_USER=$USER          \
+			KBUILD_BUILD_HOST=$HOST          \
+			DTC_EXT=$(which dtc)             \
 			AS=llvm-as                       \
 			AR=llvm-ar                       \
 			NM=llvm-nm                       \
-			DTC_EXT=$(which dtc)             \
 			LD=ld.lld                        \
 			STRIP=llvm-strip                 \
 			OBJCOPY=llvm-objcopy             \
@@ -73,11 +74,10 @@
 			HOSTCC=$HOSTCC                   \
 			HOSTCXX=$HOSTCXX                 \
 			HOSTAR=llvm-ar                   \
-			CROSS_COMPILE=$CC_64             \
 			PATH=$C_PATH/bin:$PATH           \
-			KBUILD_BUILD_USER=$USER          \
-			KBUILD_BUILD_HOST=$HOST          \
-			CROSS_COMPILE_COMPAT=$CC_COMPAT  \
+			CROSS_COMPILE=$CC_64             \
+			CC_COMPAT=$CC_COMPAT             \
+			CROSS_COMPILE_COMPAT=$CC_32      \
 			LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH
 	}
 
