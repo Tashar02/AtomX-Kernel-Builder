@@ -28,7 +28,7 @@
 		if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
 			DFCF="vendor/${DEVICE}_defconfig"
 			if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
-				DFCF="vendor/${DEVICE}-oss-perf_defconfig"
+				DFCF="vendor/${DEVICE}-perf_defconfig"
         		fi
         	fi
 	fi
