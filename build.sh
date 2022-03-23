@@ -28,7 +28,7 @@
 		if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
 			DFCF="vendor/${DEVICE}_defconfig"
 			if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
-				DFCF="vendor/${DEVICE}-perf_defconfig"
+				DFCF="vendor/${DEVICE}-oss-perf_defconfig"
         		fi
         	fi
 	fi
@@ -63,6 +63,7 @@
 			AS=llvm-as                       \
 			AR=llvm-ar                       \
 			NM=llvm-nm                       \
+			DTC_EXT=$(which dtc)             \
 			LD=ld.lld                        \
 			STRIP=llvm-strip                 \
 			OBJCOPY=llvm-objcopy             \
