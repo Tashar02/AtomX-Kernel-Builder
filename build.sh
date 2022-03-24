@@ -14,7 +14,7 @@
 	DEVICENAME='Mi A2 / Mi 6X'
 	DEVICE='wayne'
 	DEVICE2=''
-	CAM_LIB='1'
+	CAM_LIB='3'
 
 # PATH
 	KERNEL_DIR="$HOME/Kernel"
