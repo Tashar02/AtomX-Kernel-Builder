@@ -127,7 +127,7 @@ esac
 		cd $ZIP_DIR
 
 		FINAL_ZIP="$KNAME-$CAM-$FDEVICE-$VARIANT-`date +"%H%M"`"
-		zip -r9 "$FINAL_ZIP".zip * -x README.md *placeholder zipsigner*
+		zip -r9 "$FINAL_ZIP".zip * -x README.md LICENSE FUNDING.yml *placeholder zipsigner*
 		java -jar zipsigner* "$FINAL_ZIP.zip" "$FINAL_ZIP-signed.zip"
 		FINAL_ZIP="$FINAL_ZIP-signed.zip"
 
