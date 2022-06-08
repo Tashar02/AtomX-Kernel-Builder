@@ -41,7 +41,7 @@
 		HOSTCXX="$CC++"
 		CC_64='aarch64-linux-gnu-'
 		C_PATH="$HOME/clang"
-		sed -i '/CONFIG_LLVM_POLLY=y/ a CONFIG_LTO_CLANG_FULL=y' $CONFIG
+		sed -i '/CONFIG_SOUND_CONTROL=y/ a CONFIG_LTO_CLANG_FULL=y' $CONFIG
 	elif [[ "$COMPILER" == "GCC" ]]; then
 		HOSTCC='gcc'
 		CC_64='aarch64-elf-'
