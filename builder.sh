@@ -6,8 +6,6 @@
 	git clone --depth=1 https://github.com/Tashar02/AnyKernel3.git $HOME/Repack
 	git clone --depth=1 https://github.com/Atom-X-Devs/android_kernel_xiaomi_scarlet.git -b rebase-2 $HOME/Kernel
 
-	pip3 install telegram-send
-
 	mkdir $HOME/.config
 	mv telegram-send.conf $HOME/.config/telegram-send.conf
 	sed -i s/demo1/${BOT_API_KEY}/g $HOME/.config/telegram-send.conf

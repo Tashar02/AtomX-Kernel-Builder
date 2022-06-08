@@ -13,6 +13,8 @@ jobs:
       image: atomxorg/arch-linux:latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install Packages
+      run: pip install telegram-send
     - name: Set Timezone
       run: ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
     - name: Proceed With Compilation
