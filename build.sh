@@ -55,7 +55,7 @@
 	muke() {
 		make O=$COMPILER $CFLAG ARCH=arm64   \
 		    $FLAG                            \
-			CC=$CC                           \
+			CC="ccache $CC"                  \
 			LLVM=1                           \
 			LLVM_IAS=1                       \
 			PYTHON=python3                   \
