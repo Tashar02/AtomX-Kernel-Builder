@@ -1,0 +1,26 @@
+name: Linux Kernel Builds
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/neutron-toolchains/docker-image:arch-neutron
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: X86_64
+        run: |
+          bash setup.sh X86
+      - name: ARM64
+        run: |
+          bash setup.sh ARM64
+      - name: ARM
+        run: |
+          bash setup.sh ARM
