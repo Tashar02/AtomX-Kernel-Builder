@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  schedule:
+    # Every Saturday at 4:30AM UTC
+    - cron: "30 04 * * 6"
 
 jobs:
   build:
