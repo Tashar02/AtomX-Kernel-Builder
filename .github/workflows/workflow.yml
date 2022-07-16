@@ -1,12 +1,13 @@
-name: Linux Kernel Builds
+name: Neutron Benchmark
+
+env:
+  BOT_API_KEY: ${{ secrets.BOT_API_KEY }}
+  CHAT_ID: ${{ secrets.CHAT_ID }}
 
 on:
   push:
     branches:
-      - main
-  schedule:
-    # Every Saturday at 4:30AM UTC
-    - cron: "30 04 * * 6"
+      - buildtest
 
 jobs:
   build:
@@ -18,12 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: X86_64
+      - name: compile
         run: |
           bash setup.sh X86
-      - name: ARM64
-        run: |
-          bash setup.sh ARM64
-      - name: ARM
-        run: |
-          bash setup.sh ARM

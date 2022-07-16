@@ -1,29 +1,17 @@
 #!/bin/bash
 set -e
 
-export LINUX_VER=5.18.11
 export BUILDDIR=$(pwd)
-export KERNEL_DIR="$BUILDDIR/linux-$LINUX_VER"
+export KERNEL_DIR="$BUILDDIR/Kernel"
 
-if [ -d "$KERNEL_DIR"/ ]; then
-	echo "Kernel dir found"
-else
-	wget "https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$LINUX_VER.tar.xz"
-	tar xvf linux-$LINUX_VER.tar.xz
-fi
+git clone --depth=1 https://github.com/Atom-X-Devs/android_kernel_xiaomi_scarlet.git -b default-QTI $BUILDDIR/Kernel
+git clone --depth=1 https://gitlab.com/dakkshesh07/neutron-clang.git -b Neutron-15 $KERNEL_DIR/clang
+git clone --depth=1 https://github.com/Tashar02/AnyKernel3.git $BUILDDIR/Repack
 
-if [ -d "$KERNEL_DIR/clang"/ ]; then
-	echo "clang dir found"
-else
-	cd "$KERNEL_DIR"
-	git clone https://gitlab.com/dakkshesh07/neutron-clang.git --depth=1 clang
-fi
+mkdir $HOME/.config
+mv telegram-send.conf $HOME/.config/telegram-send.conf
+sed -i s/demo1/${BOT_API_KEY}/g $HOME/.config/telegram-send.conf
+sed -i s/demo2/${CHAT_ID}/g $HOME/.config/telegram-send.conf
 
 cd "$BUILDDIR"
-if [[ $1 == "X86" ]]; then
-	bash x86.sh
-elif [[ $1 == "ARM64" ]]; then
-	bash arm64.sh
-elif [[ $1 == "ARM" ]]; then
-	bash arm.sh
-fi
+bash build.sh
