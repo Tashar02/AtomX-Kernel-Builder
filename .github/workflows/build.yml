@@ -12,7 +12,7 @@ jobs:
     container:
       image: ubuntu:jammy-20211029
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Upgrade Environment
       run: apt-get update && apt-get -y upgrade
     - name: Set Timezone
