@@ -41,22 +41,23 @@
 		HOSTCC="$CC"
 		HOSTCXX="$CC++"
 		CC_64='aarch64-linux-gnu-'
+		CC_32='arm-linux-gnueabi-'
 		C_PATH="$HOME/clang"
 		sed -i '/CONFIG_SOUND_CONTROL=y/ a CONFIG_LTO_CLANG_FULL=y' $CONFIG
 	elif [[ "$COMPILER" == "GCC" ]]; then
 		HOSTCC='gcc'
 		CC_64='aarch64-elf-'
+		CC_32="$HOME/gcc-arm32/bin/arm-eabi-"
 		CC='aarch64-elf-gcc'
 		HOSTCXX='aarch64-elf-g++'
 		C_PATH="$HOME/gcc-arm64"
-	fi
-		CC_32="$HOME/gcc-arm32/bin/arm-eabi-"
 		CC_COMPAT="$HOME/gcc-arm32/bin/arm-eabi-gcc"
+	fi
 
 	muke() {
 		make O=$COMPILER $CFLAG ARCH=arm64   \
 		    $FLAG                            \
-			CC="ccache $CC"                  \
+			CC="$CC"                         \
 			LLVM=1                           \
 			LLVM_IAS=1                       \
 			PYTHON=python3                   \
