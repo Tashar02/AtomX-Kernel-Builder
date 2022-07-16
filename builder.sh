@@ -1,4 +1,4 @@
-#bin/#!/bin/bash
+#!/bin/bash
 
 #	git clone --depth=1 https://github.com/KenHV/gcc-arm64 -b master $HOME/gcc-arm64
 	git clone --depth=1 https://github.com/KenHV/gcc-arm -b master $HOME/gcc-arm32
