@@ -5,7 +5,7 @@ export BUILDDIR=$(pwd)
 export KERNEL_DIR="$BUILDDIR/Kernel"
 
 git clone --depth=1 https://github.com/Atom-X-Devs/android_kernel_xiaomi_scarlet.git -b default-QTI $BUILDDIR/Kernel
-git clone --depth=1 https://gitlab.com/ElectroPerf/atom-x-clang.git -b master $KERNEL_DIR/clang
+git clone --depth=1 https://gitlab.com/dakkshesh07/neutron-clang.git -b experimental $KERNEL_DIR/clang
 git clone --depth=1 https://github.com/Tashar02/AnyKernel3.git $BUILDDIR/Repack
 
 mkdir $HOME/.config
