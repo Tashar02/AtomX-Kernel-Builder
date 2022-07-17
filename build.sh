@@ -19,7 +19,7 @@ VARIANT='FULL_LTO'
 DFCF="vendor/${DEVICE}-oss-perf_defconfig"
 CONFIG="$KERNEL_DIR/arch/arm64/configs/vendor/${DEVICE}-oss-perf_defconfig"
 
-echo "CONFIG_LTO_CLANG_FULL=y" >>$CONFIG
+echo "CONFIG_LTO_CLANG_THIN=y" >>$CONFIG
 
 echo "Building The Kramel"
 make O=out $DFCF \
