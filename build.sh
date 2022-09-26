@@ -1,9 +1,10 @@
+#!/bin/bash
 # SPDX-License-Identifier: GPL-3.0
 # Copyright © 2021,
 # Author(s): Divyanshu-Modi <divyan.m05@gmail.com>, Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
-# Revision: 24-03-2022
+# Revision: 26-09-2022
 
-	VERSION='6.2'
+	VERSION='7.0'
 	COMPILER="$1"
 
 # USER
@@ -13,8 +14,9 @@
 # DEVICE CONFIG
 	DEVICENAME='Mi A2 / Mi 6X'
 	DEVICE='wayne'
-	DEVICE2=''
+	DEVICE2='jasmine'
 	CAM_LIB='3'
+	HAPTICS='2'
 
 # PATH
 	KERNEL_DIR="$HOME/Kernel"
@@ -22,17 +24,14 @@
 	AKSH="$ZIP_DIR/anykernel.sh"
 
 # DEFCONFIG
-	DFCF="${DEVICE}_defconfig"
-	if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
-		DFCF="${DEVICE}-perf_defconfig"
-		if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
-			DFCF="vendor/${DEVICE}_defconfig"
-			if [[ ! -f $KERNEL_DIR/arch/arm64/configs/$DFCF ]]; then
-				DFCF="vendor/${DEVICE}-oss-perf_defconfig"
-        		fi
-        	fi
-	fi
-	CONFIG="$KERNEL_DIR/arch/arm64/configs/$DFCF"
+if [[ "$CAM_LIB" == "1" ]]; then
+	DFCF="vendor/${DEVICE}-perf_defconfig"
+elif [[ "$CAM_LIB" == "2" ]]; then
+	DFCF="vendor/${DEVICE}-old-perf_defconfig"
+elif [[ "$CAM_LIB" == "3" ]]; then
+	DFCF="vendor/${DEVICE}-oss-perf_defconfig"
+fi
+CONFIG="$KERNEL_DIR/arch/arm64/configs/$DFCF"
 
 # Set variables
 	if [[ "$COMPILER" == "CLANG" ]]; then
@@ -61,7 +60,6 @@
 			PYTHON=python3                   \
 			KBUILD_BUILD_USER=$USER          \
 			KBUILD_BUILD_HOST=$HOST          \
-			DTC_EXT=$(which dtc)             \
 			AS=llvm-as                       \
 			AR=llvm-ar                       \
 			NM=llvm-nm                       \
@@ -78,7 +76,8 @@
 			CROSS_COMPILE=$CC_64             \
 			CC_COMPAT=$CC_COMPAT             \
 			CROSS_COMPILE_COMPAT=$CC_32      \
-			LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH
+			LD_LIBRARY_PATH=$C_PATH/lib:$LD_LIBRARY_PATH \
+			2>&1 | tee log.txt
 	}
 
 	CFLAG=$DFCF
@@ -103,6 +102,7 @@
 
 	if [[ -f $KERNEL_DIR/$COMPILER/arch/arm64/boot/Image.gz-dtb ]]; then
 		FDEVICE=${DEVICE^^}
+		FDEVICE2=${DEVICE2^^}
 		KNAME=$(echo "$CONFIG_LOCALVERSION" | cut -c 2-)
 		
 case $CAM_LIB in 
@@ -116,38 +116,36 @@ case $CAM_LIB in
 	   CAM=OSS-CAM
 	;;
 esac
-		
-		cp $KERNEL_DIR/$COMPILER/arch/arm64/boot/Image.gz-dtb $ZIP_DIR/
 
-		sed -i "s/demo1/$DEVICE/g" $AKSH
-		if [[ "$DEVICE2" ]]; then
-			sed -i "/device.name1/ a device.name2=$DEVICE2" $AKSH
-		fi
+case $HAPTICS in
+	1)
+		HAPTIC=QPNP
+	;;
+	2)
+		HAPTIC=QTI
+	;;
+esac
+		cp $KERNEL_DIR/$COMPILER/arch/arm64/boot/Image.gz-dtb $ZIP_DIR/
 
 		cd $ZIP_DIR
 
-		FINAL_ZIP="$KNAME-$CAM-$FDEVICE-$VARIANT-`date +"%H%M"`"
+		FINAL_ZIP="$KNAME-$CAM-$HAPTIC-$FDEVICE2-$FDEVICE-$(date +"%H%M")"
 		zip -r9 "$FINAL_ZIP".zip * -x README.md LICENSE FUNDING.yml *placeholder zipsigner*
 		java -jar zipsigner* "$FINAL_ZIP.zip" "$FINAL_ZIP-signed.zip"
 		FINAL_ZIP="$FINAL_ZIP-signed.zip"
 
 		telegram-send --file $ZIP_DIR/$FINAL_ZIP
+		telegram-send --file $KERNEL_DIR/log.txt
 
 		rm *.zip Image.gz-dtb
 
 		cd $KERNEL_DIR
-
-		sed -i "s/$DEVICE/demo1/g" $AKSH
-		if [[ "$DEVICE2" ]]; then
-			sed -i "/device.name2/d" $AKSH
-		fi
 
 		DIFF=$(($BUILD_END - $BUILD_START))
 		COMPILER_NAME="$($C_PATH/bin/$CC --version 2>/dev/null | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 
 		telegram-send --disable-web-page-preview --format html "\
 		========Scarlet-X Kernel========
-		Compiler: <code>$COMPILER</code>
 		Compiler-name: <code>$COMPILER_NAME</code>
 		Linux Version: <code>$(make kernelversion)</code>
 		Builder Version: <code>$VERSION</code>
@@ -155,6 +153,7 @@ esac
 		Maintainer: <code>$USER</code>
 		Device: <code>$DEVICENAME</code>
 		Codename: <code>$DEVICE</code>
+		Zipname: <code>$FINAL_ZIP</code>
 		Camlib: <code>$CAM</code>
 		Build Date: <code>$(date +"%Y-%m-%d %H:%M")</code>
 		Build Duration: <code>$(($DIFF / 60)).$(($DIFF % 60)) mins</code>
@@ -163,5 +162,6 @@ esac
 		Last Commit Hash: <code>$(git rev-parse --short HEAD)</code>"
 	else
 		telegram-send "Error⚠️ $COMPILER failed to build"
+		telegram-send --file $KERNEL_DIR/log.txt
 		exit 1
 	fi
