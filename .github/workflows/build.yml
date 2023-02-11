@@ -1,24 +1,20 @@
-name: Tempest Kernel
+name: Scarlet-X Kernel
 env:
       BOT_API_KEY: ${{ secrets.BOT_API_KEY }}
       CHAT_ID: ${{ secrets.CHAT_ID }}
-      SOURCE: ${{ secrets.SOURCE }}
 on:
   workflow_dispatch:
   push: {branches: ["test"]}
 jobs:
-  tempest-kernel:
-    runs-on: ubuntu-latest
+  scarlet-x-kernel:
+    runs-on: archlinux
     container:
-      image: ubuntu:jammy-20211029
+      image: ghcr.io/neutron-toolchains/docker-image:arch-neutron
     steps:
     - uses: actions/checkout@v2
     - name: Upgrade Environment
       run: apt-get update && apt-get -y upgrade
     - name: Set Timezone
-      run: ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
-    - name: Install Packages
-      run: apt-get -y install gcc llvm lld g++-multilib python2 clang git libxml2 device-tree-compiler default-jre automake lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng bc libstdc++6 libncurses5 wget python3 python3-pip libssl-dev rsync flex git-lfs libz3-dev libz3-4 axel tar binutils-dev ca-certificates ccache cmake file libelf-dev ninja-build python3-dev texinfo u-boot-tools xz-utils && python3 -m pip install networkx
+      run: ln -fs /usr/share/zoneinfo/Asia/Dhaka /etc/localtime && date && locale-gen en_US en_US.UTF-8
     - name: Proceed With Compilation
       run: bash builder.sh
-      
